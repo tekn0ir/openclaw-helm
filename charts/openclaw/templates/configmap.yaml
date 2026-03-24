@@ -12,8 +12,7 @@ data:
         "bind": "lan",
         "port": 18789,
         "auth": {
-          "mode": "password",
-          "password": "openclaw"
+          "mode": "token"
         },
         "controlUi": {
           "enabled": true,

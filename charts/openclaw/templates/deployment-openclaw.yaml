@@ -32,6 +32,7 @@ spec:
               cp /config/openclaw.json /home/node/.openclaw/openclaw.json
               mkdir -p /home/node/.openclaw/workspace
               cp /config/AGENTS.md /home/node/.openclaw/workspace/AGENTS.md
+              cp /config/.mcp.json /home/node/.openclaw/workspace/.mcp.json
               /bin/chown -R 1000:1000 /home/node/.openclaw
           securityContext:
             runAsUser: 0

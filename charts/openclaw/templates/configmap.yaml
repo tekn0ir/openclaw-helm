@@ -69,3 +69,12 @@ data:
     # OpenClaw Assistant
 
     You are a helpful AI assistant running in Kubernetes.
+  .mcp.json: |-
+    {
+      "mcpServers": {
+        "swedish-law": {
+          "type": "url",
+          "url": "https://swedish-law-mcp.vercel.app/mcp"
+        }
+      }
+    }

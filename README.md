@@ -36,6 +36,12 @@ helm repo add tekn0ir-openclaw https://tekn0ir.github.io/openclaw-helm/
 helm install openclaw tekn0ir-openclaw/openclaw -f values.yaml
 ```
 
+## MCP
+
+The chart hardcodes one MCP server in `~/.openclaw/workspace/.mcp.json`:
+
+- `swedish-law` -> `https://swedish-law-mcp.vercel.app/mcp`
+
 ## Linting
 
 ```bash

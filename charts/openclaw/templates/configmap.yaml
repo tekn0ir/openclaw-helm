@@ -11,8 +11,13 @@ data:
         "mode": "local",
         "bind": "lan",
         "port": 18789,
+        "trustedProxies": ["172.17.0.1", "10.42.0.0/16"],
         "auth": {
-          "mode": "token"
+          "mode": "trusted-proxy",
+          "trustedProxy": {
+            "userHeader": "X-Auth-Request-Email",
+            "requiredHeaders": ["X-Auth-Request-Access-Token"]
+          }
         },
         "controlUi": {
           "enabled": true,

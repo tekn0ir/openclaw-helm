@@ -18,8 +18,3 @@ spec:
       targetPort: 18789
       protocol: TCP
       nodePort: 31789
-    - name: http-dashboard
-      port: 18791
-      targetPort: 18791
-      protocol: TCP
-      nodePort: 31791

@@ -18,9 +18,32 @@ data:
           "enabled": true
         }
       },
+      "models": {
+        "providers": {
+          "ollama": {
+            "apiKey": "ollama-local",
+            "baseUrl": "http://openclaw-ollama:11434",
+            "api": "ollama",
+            "models": [
+              {
+                "id": "qwen3.5:latest",
+                "name": "Qwen 3.5 9B",
+                "reasoning": false,
+                "input": ["text", "image"],
+                "cost": { "input": 0, "output": 0, "cacheRead": 0, "cacheWrite": 0 },
+                "contextWindow": 262144,
+                "maxTokens": 2621440
+              }
+            ]
+          }
+        }
+      },
       "agents": {
         "defaults": {
-          "workspace": "~/.openclaw/workspace"
+          "workspace": "~/.openclaw/workspace",
+          "model": {
+            "primary": "ollama/qwen3.5:latest"
+          }
         },
         "list": [
           {

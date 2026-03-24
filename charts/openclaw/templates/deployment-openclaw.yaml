@@ -108,8 +108,9 @@ spec:
                 - ALL
       volumes:
         - name: openclaw-home
-          persistentVolumeClaim:
-            claimName: openclaw-home-pvc
+          hostPath:
+            path: /opt/teknoir/openclaw/openclaw-home
+            type: DirectoryOrCreate
         - name: config
           configMap:
             name: openclaw-config

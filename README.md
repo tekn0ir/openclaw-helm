@@ -1,6 +1,6 @@
 # OpenClaw Helm Chart
 
-This chart deploys OpenClaw and Ollama to a K3s cluster using the HelmChart CRD and controller. Services include Prometheus scrape annotations for `/metrics`.
+This chart deploys OpenClaw and Ollama to a K3s cluster using the HelmChart CRD and controller. Services include Prometheus scrape annotations for `/metrics`. Persistence uses hostPath under `/opt/teknoir/openclaw`.
 
 > The implementation of the Helm chart is the bare minimum to get it to work by design.
 

@@ -10,4 +10,4 @@ apply: always
   * It should be kept very short without icons and simple formatting, basically mostly adjusting things to align with changes made or fixing direct errors
 * Teknoir platform requirements
   * Web UI service resource needs a fixed NodePort based on the OpenClaw kustomize resources, with the port derived from the default port, no Ingress
-  * Persistence volumes should use a local-path-provisioner StorageClass configured to use e.g. /opt/teknoir/openclaw
+  * Persistence volumes should use hostPath under /opt/teknoir/openclaw

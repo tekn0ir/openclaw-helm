@@ -45,5 +45,6 @@ spec:
               mountPath: /root/.ollama
       volumes:
         - name: ollama-data
-          persistentVolumeClaim:
-            claimName: openclaw-ollama-pvc
+          hostPath:
+            path: /opt/teknoir/openclaw/ollama
+            type: DirectoryOrCreate

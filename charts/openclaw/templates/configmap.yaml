@@ -12,7 +12,7 @@ data:
         "bind": "loopback",
         "port": 18789,
         "auth": {
-          "mode": "token"
+          "mode": "disabled"
         },
         "controlUi": {
           "enabled": true

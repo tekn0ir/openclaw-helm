@@ -4,6 +4,10 @@ metadata:
   name: openclaw
   labels:
     app: openclaw
+  annotations:
+    prometheus.io/scrape: "true"
+    prometheus.io/path: "/metrics"
+    prometheus.io/port: "18789"
 spec:
   type: NodePort
   selector:

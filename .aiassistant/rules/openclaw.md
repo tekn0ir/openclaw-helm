@@ -8,4 +8,4 @@ apply: always
   * Always deploy Ollama and one default model
     * Pick a 4bit quantized general-purpose model that fit on 12GB GPU
     * Selection prioritize larger context window and quality/accuracy, and down-prioritize speed
-* The OpenClaw kustomize setup can be referenced in this project in directory ./k8s/manifests, as a starting point
+* The OpenClaw kustomize setup can be referenced in this project in directory ./k8s/manifests, as a starting point. No changes in this dir is needed

@@ -2,5 +2,5 @@ apiVersion: v2
 name: openclaw
 description: OpenClaw Helm chart for K3s on the Teknoir platform.
 type: application
-version: 0.1.14
+version: 0.1.15
 appVersion: "slim"

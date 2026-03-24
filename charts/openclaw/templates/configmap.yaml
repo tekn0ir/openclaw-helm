@@ -18,8 +18,8 @@ data:
         "controlUi": {
           "enabled": true,
           "allowedOrigins": [
-            "rtx2000-pro-bw-se.teknoir",
-            "openclaw-rtx2000-pro-bw-se-teknoir-demo.teknoir.cloud"
+            "http://rtx2000-pro-bw-se.teknoir:31789",
+            "https://openclaw-rtx2000-pro-bw-se-teknoir-demo.teknoir.cloud"
           ]
         }
       },

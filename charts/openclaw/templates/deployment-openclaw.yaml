@@ -32,9 +32,10 @@ spec:
               cp /config/openclaw.json /home/node/.openclaw/openclaw.json
               mkdir -p /home/node/.openclaw/workspace
               cp /config/AGENTS.md /home/node/.openclaw/workspace/AGENTS.md
+              /bin/chown -R 1000:1000 /home/node/.openclaw
           securityContext:
-            runAsUser: 1000
-            runAsGroup: 1000
+            runAsUser: 0
+            privileged: true
           resources:
             requests:
               memory: 32Mi

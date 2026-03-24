@@ -9,10 +9,11 @@ data:
     {
       "gateway": {
         "mode": "local",
-        "bind": "loopback",
+        "bind": "lan",
         "port": 18789,
         "auth": {
-          "mode": "none"
+          "mode": "password",
+          "password": "openclaw"
         },
         "controlUi": {
           "enabled": true

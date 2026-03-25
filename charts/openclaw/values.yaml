@@ -1,1 +1,5 @@
-# Values are intentionally empty. The chart is zero-config by design.
+# Image configuration
+image:
+  repository: tekn0ir/openclaw
+  tag: 0.1.18
+  pullPolicy: IfNotPresent

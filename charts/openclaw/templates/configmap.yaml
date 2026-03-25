@@ -71,7 +71,7 @@ data:
               "mode": "direct",
               "servers": {
                 "mcp-swedish-law": {
-                  "transport": "http",
+                  "transport": "streamable-http",
                   "url": "http://mcp-swedish-law/mcp",
                   "description": "Swedish statutes and regulations"
                 }

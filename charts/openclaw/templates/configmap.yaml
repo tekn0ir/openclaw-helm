@@ -64,6 +64,7 @@ data:
         ]
       },
       "plugins": {
+        "allow": ["openclaw-mcp-bridge"],
         "entries": {
           "openclaw-mcp-bridge": {
             "config": {

@@ -65,18 +65,25 @@ data:
       },
       "plugins": {
         "entries": {
-          "mcp-integration": {
-            "enabled": true,
+          "openclaw-mcp-bridge": {
             "config": {
-              "enabled": true,
+              "mode": "router",
               "servers": {
                 "mcp-swedish-law": {
-                  "enabled": true,
                   "transport": "http",
-                  "url": "http://mcp-swedish-law/mcp"
+                  "url": "http://mcp-swedish-law/mcp",
+                  "description": "Swedish statutes and regulations"
                 }
-              }
+              },
+              "toolPrefix": true
             }
+          }
+        }
+      },
+      "tools": {
+        "sandbox": {
+          "tools": {
+            "allow": ["group:openclaw", "mcp", "mcp_bridge_update"]
           }
         }
       },

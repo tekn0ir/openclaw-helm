@@ -32,11 +32,7 @@ spec:
               mkdir -p /home/node/.openclaw/workspace
               rsync -auL /config/openclaw.json /home/node/.openclaw/openclaw.json
               rsync -auL /config/AGENTS.md /home/node/.openclaw/workspace/AGENTS.md
-              mkdir -p /home/node/.openclaw/extensions
-              cd /home/node/.openclaw/extensions/ && \
-                git clone https://github.com/lunarpulse/openclaw-mcp-plugin.git mcp-integration && \
-                cd mcp-integration && \
-                npm install
+              openclaw plugins install @aiwerk/openclaw-mcp-bridge
               /bin/chown -R 1000:1000 /home/node/.openclaw
           securityContext:
             runAsUser: 0
@@ -50,7 +46,7 @@ spec:
               cpu: 100m
           volumeMounts:
             - name: openclaw-home
-              mountPath: /home/node/.openclaw
+              mountPath: /home/node
             - name: config
               mountPath: /config
       containers:

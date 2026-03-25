@@ -1,5 +1,5 @@
 # Image configuration
 image:
   repository: tekn0ir/openclaw
-  tag: 0.1.18
-  pullPolicy: IfNotPresent
+  tag: latest
+  pullPolicy: Always

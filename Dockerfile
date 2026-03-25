@@ -14,6 +14,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     vim \
     net-tools \
     iputils-ping \
+    rsync \
     && rm -rf /var/lib/apt/lists/*
 
 # Add any additional skills/integrations dependencies here

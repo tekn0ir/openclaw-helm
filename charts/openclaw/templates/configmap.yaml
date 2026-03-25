@@ -53,6 +53,13 @@ data:
           "workspace": "~/.openclaw/workspace",
           "model": {
             "primary": "ollama/qwen3.5:latest"
+          },
+          "mcp": {
+            "servers": {
+              "swedish-law": {
+                "url": "http://mcp-swedish-law"
+              }
+            }
           }
         },
         "list": [

@@ -3,3 +3,10 @@ image:
   repository: tekn0ir/openclaw
   tag: latest
   pullPolicy: Always
+
+# MCP Servers configuration
+mcp:
+  swedishLaw:
+    image: tekn0ir/swedish-law-mcp
+    tag: latest
+    pullPolicy: Always

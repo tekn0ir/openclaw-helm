@@ -20,9 +20,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 # Add any additional skills/integrations dependencies here
 # For example, if you need a specific version of a tool or additional libraries
 
-# Install mcporter globally
-RUN npm install -g mcporter
-
 # Switch back to the node user (as used in the base image)
 USER node
 

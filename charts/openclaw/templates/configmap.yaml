@@ -53,13 +53,6 @@ data:
           "workspace": "~/.openclaw/workspace",
           "model": {
             "primary": "ollama/qwen3.5:latest"
-          },
-          "mcp": {
-            "servers": {
-              "swedish-law": {
-                "url": "http://mcp-swedish-law"
-              }
-            }
           }
         },
         "list": [
@@ -69,6 +62,23 @@ data:
             "workspace": "~/.openclaw/workspace"
           }
         ]
+      },
+      "plugins": {
+        "entries": {
+          "mcp-integration": {
+            "enabled": true,
+            "config": {
+              "enabled": true,
+              "servers": {
+                "mcp-swedish-law": {
+                  "enabled": true,
+                  "transport": "http",
+                  "url": "http://mcp-swedish-law/mcp"
+                }
+              }
+            }
+          }
+        }
       },
       "cron": { "enabled": false }
     }

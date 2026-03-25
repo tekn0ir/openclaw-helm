@@ -67,7 +67,7 @@ data:
         "entries": {
           "openclaw-mcp-bridge": {
             "config": {
-              "mode": "router",
+              "mode": "direct",
               "servers": {
                 "mcp-swedish-law": {
                   "transport": "http",

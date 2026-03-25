@@ -101,7 +101,7 @@ spec:
             timeoutSeconds: 5
           volumeMounts:
             - name: openclaw-home
-              mountPath: /home/node/.openclaw
+              mountPath: /home/node
             - name: tmp-volume
               mountPath: /tmp
           securityContext:
@@ -116,7 +116,7 @@ spec:
       volumes:
         - name: openclaw-home
           hostPath:
-            path: /opt/teknoir/openclaw/openclaw-home
+            path: /opt/teknoir/openclaw/home
             type: DirectoryOrCreate
         - name: config
           configMap:

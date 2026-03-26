@@ -64,8 +64,7 @@ spec:
             - sh
             - -c
             - |
-              cd /home/node/.openclaw/workspace
-              source .venv/bin/activate
+              source /home/node/.openclaw/workspace/.venv/bin/activate
               node /app/dist/index.js gateway run
           ports:
             - name: gateway

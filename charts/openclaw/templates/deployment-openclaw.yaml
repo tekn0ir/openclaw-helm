@@ -33,6 +33,7 @@ spec:
               rsync -auL /config/openclaw.json /home/node/.openclaw/openclaw.json
               rsync -auL /config/AGENTS.md /home/node/.openclaw/workspace/AGENTS.md
               cd /home/node/.openclaw/workspace
+              python3 -m venv .venv || true
               openclaw plugins install @aiwerk/openclaw-mcp-bridge
               /bin/chown -R 1000:1000 /home/node
           securityContext:
@@ -48,6 +49,7 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           command:
+            - source .venv/bin/activate
             - node
             - /app/dist/index.js
             - gateway

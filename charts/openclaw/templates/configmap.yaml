@@ -78,7 +78,7 @@ data:
         ]
       },
       "plugins": {
-        "allow": ["openclaw-mcp-bridge", "nano-pdf"],
+        "allow": ["openclaw-mcp-bridge"],
         "entries": {
           "openclaw-mcp-bridge": {
             "config": {
@@ -96,13 +96,14 @@ data:
         }
       },
       "tools": {
+        "allow": ["all"],
         "sandbox": {
           "tools": {
-            "allow": ["group:openclaw", "mcp", "mcp_bridge_update", "nano-pdf"]
+            "allow": ["all"]
           }
         }
       },
-      "cron": { "enabled": false }
+      "cron": { "enabled": true }
     }
   AGENTS.md: |-
     # OpenClaw Assistant

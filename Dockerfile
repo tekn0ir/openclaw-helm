@@ -20,6 +20,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 # Install uv
 ENV UV_INSTALL_DIR=/usr/local/bin
 RUN curl -LsSf https://astral.sh/uv/install.sh | sh
+RUN uv venv && uv pip install nano-pdf
 
 # Add any additional skills/integrations dependencies here
 # For example, if you need a specific version of a tool or additional libraries

@@ -29,7 +29,7 @@ spec:
               sleep 2
               #ollama pull qwen3.5:latest || true
               #ollama pull mistral-nemo:latest || true
-              gpt-oss:20b || true
+              ollama pull gpt-oss:20b || true
               wait $pid
           ports:
             - name: http

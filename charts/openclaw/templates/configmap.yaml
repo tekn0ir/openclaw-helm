@@ -36,8 +36,8 @@ data:
             "api": "ollama",
             "models": [
               {
-                "id": "gpt-oss:latest",
-                "name": "gpt-oss:latest",
+                "id": "gpt-oss:20b",
+                "name": "gpt-oss:20b",
                 "reasoning": true,
                 "input": [
                   "text",
@@ -60,7 +60,7 @@ data:
         "defaults": {
           "workspace": "~/.openclaw/workspace",
           "model": {
-            "primary": "ollama/gpt-oss:latest"
+            "primary": "ollama/gpt-oss:20b"
           }
         },
         "list": [

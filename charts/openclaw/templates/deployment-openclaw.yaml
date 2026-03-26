@@ -36,6 +36,18 @@ spec:
               python3 -m venv .venv || true
               openclaw plugins install @aiwerk/openclaw-mcp-bridge
               /bin/chown -R 1000:1000 /home/node
+          env:
+            - name: HOME
+              value: /home/node
+            - name: OPENCLAW_CONFIG_DIR
+              value: /home/node/.openclaw
+            - name: NODE_ENV
+              value: production
+            - name: OPENCLAW_GATEWAY_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: openclaw-secrets
+                  key: OPENCLAW_GATEWAY_TOKEN
           securityContext:
             runAsUser: 0
             privileged: true
@@ -49,11 +61,12 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           command:
-            - source .venv/bin/activate
-            - node
-            - /app/dist/index.js
-            - gateway
-            - run
+            - sh
+            - -c
+            - |
+              cd /home/node/.openclaw/workspace
+              source .venv/bin/activate
+              node /app/dist/index.js gateway run
           ports:
             - name: gateway
               containerPort: 18789

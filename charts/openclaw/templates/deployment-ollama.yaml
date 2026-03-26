@@ -27,7 +27,9 @@ spec:
             - |
               ollama serve & pid=$!
               sleep 2
-              ollama pull qwen3.5:latest || true
+              #ollama pull qwen3.5:latest || true
+              #ollama pull mistral-nemo:latest || true
+              gpt-oss:latest || true
               wait $pid
           ports:
             - name: http
@@ -35,10 +37,10 @@ spec:
               protocol: TCP
           resources:
             requests:
-              memory: 2Gi
+              memory: 1Gi
               cpu: "1"
             limits:
-              memory: 24Gi
+              memory: 32Gi
               cpu: "8"
           volumeMounts:
             - name: ollama-data

@@ -36,13 +36,21 @@ data:
             "api": "ollama",
             "models": [
               {
-                "id": "qwen3.5:latest",
-                "name": "Qwen 3.5 9B",
-                "reasoning": false,
-                "input": ["text", "image"],
-                "cost": { "input": 0, "output": 0, "cacheRead": 0, "cacheWrite": 0 },
-                "contextWindow": 262144,
-                "maxTokens": 2621440
+                "id": "gpt-oss:latest",
+                "name": "gpt-oss:latest",
+                "reasoning": true,
+                "input": [
+                  "text",
+                  "image"
+                ],
+                "cost": {
+                  "input": 0,
+                  "output": 0,
+                  "cacheRead": 0,
+                  "cacheWrite": 0
+                },
+                "contextWindow": 260000,
+                "maxTokens": 260000
               }
             ]
           }
@@ -52,7 +60,7 @@ data:
         "defaults": {
           "workspace": "~/.openclaw/workspace",
           "model": {
-            "primary": "ollama/qwen3.5:latest"
+            "primary": "ollama/gpt-oss:latest"
           }
         },
         "list": [

@@ -72,7 +72,7 @@ data:
         ]
       },
       "plugins": {
-        "allow": ["openclaw-mcp-bridge"],
+        "allow": ["openclaw-mcp-bridge", "nano-pdf"],
         "entries": {
           "openclaw-mcp-bridge": {
             "config": {
@@ -92,7 +92,7 @@ data:
       "tools": {
         "sandbox": {
           "tools": {
-            "allow": ["group:openclaw", "mcp", "mcp_bridge_update"]
+            "allow": ["group:openclaw", "mcp", "mcp_bridge_update", "nano-pdf"]
           }
         }
       },

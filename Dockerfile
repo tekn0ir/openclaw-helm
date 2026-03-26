@@ -17,6 +17,10 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     rsync \
     && rm -rf /var/lib/apt/lists/*
 
+# Install uv
+ENV UV_INSTALL_DIR=/usr/local/bin
+RUN curl -LsSf https://astral.sh/uv/install.sh | sh
+
 # Add any additional skills/integrations dependencies here
 # For example, if you need a specific version of a tool or additional libraries
 

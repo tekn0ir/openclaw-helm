@@ -37,8 +37,8 @@ data:
             "api": "ollama",
             "models": [
               {
-                "id": "gpt-oss:latest",
-                "name": "gpt-oss:latest",
+                "id": "deepseek-v4-pro:cloud",
+                "name": "deepseek-v4-pro:cloud",
                 "reasoning": true,
                 "input": [
                   "text",
@@ -61,13 +61,13 @@ data:
         "defaults": {
           "workspace": "~/.openclaw/workspace",
           "model": {
-            "primary": "ollama/gpt-oss:latest"
+            "primary": "ollama/deepseek-v4-pro:cloud"
           },
           "pdfModel": {
-            "primary": "ollama/gpt-oss:latest"
+            "primary": "ollama/deepseek-v4-pro:cloud"
           },
           "imageModel": {
-            "primary": "ollama/gpt-oss:latest"
+            "primary": "ollama/deepseek-v4-pro:cloud"
           }
         },
         "list": [

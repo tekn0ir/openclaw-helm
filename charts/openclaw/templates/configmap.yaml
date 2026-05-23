@@ -37,8 +37,8 @@ data:
             "api": "ollama",
             "models": [
               {
-                "id": "deepseek-v4-pro:cloud",
-                "name": "deepseek-v4-pro:cloud",
+                "id": "{{ .Values.models.id }}",
+                "name": "{{ .Values.models.id }}",
                 "reasoning": true,
                 "input": [
                   "text",
@@ -61,13 +61,13 @@ data:
         "defaults": {
           "workspace": "~/.openclaw/workspace",
           "model": {
-            "primary": "ollama/deepseek-v4-pro:cloud"
+            "primary": "{{ .Values.models.primary }}"
           },
           "pdfModel": {
-            "primary": "ollama/deepseek-v4-pro:cloud"
+            "primary": "{{ .Values.models.primary }}"
           },
           "imageModel": {
-            "primary": "ollama/deepseek-v4-pro:cloud"
+            "primary": "{{ .Values.models.primary }}"
           }
         },
         "list": [

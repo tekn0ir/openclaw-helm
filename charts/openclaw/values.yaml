@@ -10,3 +10,8 @@ mcp:
     image: tekn0ir/swedish-law-mcp
     tag: latest
     pullPolicy: Always
+
+# Model configuration
+models:
+  primary: "ollama/ukjin/Qwen3-30B-A3B-Thinking-2507-Deepseek-v3.1-Distill:4b"
+  id: "ukjin/Qwen3-30B-A3B-Thinking-2507-Deepseek-v3.1-Distill:4b"

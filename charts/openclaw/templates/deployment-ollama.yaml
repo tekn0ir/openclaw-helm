@@ -28,7 +28,7 @@ spec:
               ollama serve & pid=$!
               sleep 2
               # ollama pull gpt-oss:latest || true
-              ollama pull deepseek-v4-pro:cloud || true
+              ollama pull {{ .Values.models.id }} || true
               wait $pid
           ports:
             - name: http

@@ -78,11 +78,9 @@ spec:
             requests:
               memory: 32Gi
               cpu: "6"
-              nvidia.com/gpu: "2"
             limits:
               memory: 128Gi
               cpu: "12"
-              nvidia.com/gpu: "2"
           readinessProbe:
             httpGet:
               path: /health

@@ -98,7 +98,17 @@ data:
           }
         }
       },
-      "cron": { "enabled": true }
+      "cron": { "enabled": true },
+      "diagnostics": {
+        "enabled": true,
+        "stuckSessionWarnMs": {{ int .Values.models.stuckSessionWarnMs }},
+        "stuckSessionAbortMs": {{ int .Values.models.stuckSessionAbortMs }}
+      },
+      "session": {
+        "writeLock": {
+          "maxHoldMs": {{ int .Values.models.sessionWriteLockMaxHoldMs }}
+        }
+      }
     }
   AGENTS.md: |-
     # OpenClaw Assistant

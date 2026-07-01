@@ -27,6 +27,18 @@ models:
   providerTimeoutSeconds: 1800
   # Agent-run ceiling (seconds); must be >= the provider timeout to take effect.
   agentTimeoutSeconds: 3600
+  # Stuck-session watchdog thresholds (milliseconds). The slow 256K prompt-processing
+  # can go minutes without streaming a token; OpenClaw's watchdog otherwise classifies
+  # the run as "stalled" and abort-drains it (abort_embedded_run) even though the model
+  # is still working. Raise the abort window past the agent-run ceiling so long, slow
+  # generations are not killed; keep the warn threshold lower for visibility only.
+  # No-progress age (ms) before a session is merely logged as long-running/stalled.
+  stuckSessionWarnMs: 240000
+  # No-progress age (ms) before an in-flight run may be abort-drained for recovery.
+  stuckSessionAbortMs: 5400000
+  # Session transcript write-lock watchdog release threshold (ms). A single slow model
+  # call holds the transcript lock; the default 300000ms max-hold releases it mid-run.
+  sessionWriteLockMaxHoldMs: 5400000
 
 # llama.cpp server configuration
 # Runs the "massive" GLM-4.6 (357B MoE) as a quantized GGUF, split across CPU and

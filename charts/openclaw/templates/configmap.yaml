@@ -34,7 +34,7 @@ data:
           "llamacpp": {
             "apiKey": "llamacpp-local",
             "baseUrl": "http://openclaw-llamacpp:8080/v1",
-            "api": "openai",
+            "api": "openai-completions",
             "models": [
               {
                 "id": "{{ .Values.models.id }}",

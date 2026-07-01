@@ -22,9 +22,11 @@ data:
         "controlUi": {
           "enabled": true,
           "allowInsecureAuth": true,
+          "dangerouslyDisableDeviceAuth": true,
           "allowedOrigins": [
             "http://rtx2000-pro-bw-se.teknoir:31789",
             "https://openclaw-rtx2000-pro-bw-se-teknoir-demo.teknoir.cloud",
+            "https://openclaw-rtx2000-ada-128gb-se-teknoir-demo.teknoir.cloud",
             "https://openclaw.teknoir.cloud"
           ]
         }

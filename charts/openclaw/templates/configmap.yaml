@@ -96,14 +96,6 @@ data:
           }
         }
       },
-      "tools": {
-        "allow": ["all"],
-        "sandbox": {
-          "tools": {
-            "allow": ["all"]
-          }
-        }
-      },
       "cron": { "enabled": true }
     }
   AGENTS.md: |-

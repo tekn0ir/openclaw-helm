@@ -3,6 +3,16 @@ entries:
   openclaw:
   - apiVersion: v2
     appVersion: 0.1.18
+    created: "2026-07-01T16:57:32.397361602Z"
+    description: OpenClaw Helm chart for K3s on the Teknoir platform.
+    digest: 8111d904e10435d8917ee77ac7c4bb3cc9ac153622dedbc42bc0a4937e1d319f
+    name: openclaw
+    type: application
+    urls:
+    - https://github.com/tekn0ir/openclaw-helm/releases/download/openclaw-0.1.43-glm-4.6-6/openclaw-0.1.43-glm-4.6-6.tgz
+    version: 0.1.43-glm-4.6-6
+  - apiVersion: v2
+    appVersion: 0.1.18
     created: "2026-07-01T16:29:41.794705194Z"
     description: OpenClaw Helm chart for K3s on the Teknoir platform.
     digest: 2f92b44754a1dfb14f52abc5e44fd18db5aee47f151f754949124024437582a8
@@ -491,4 +501,4 @@ entries:
     urls:
     - https://github.com/tekn0ir/openclaw-helm/releases/download/openclaw-0.1.1/openclaw-0.1.1.tgz
     version: 0.1.1
-generated: "2026-07-01T16:29:41.795239809Z"
+generated: "2026-07-01T16:57:32.397529382Z"

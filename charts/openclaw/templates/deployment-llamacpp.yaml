@@ -30,7 +30,9 @@ spec:
           #   * The huge routed MoE expert tensors stay in system RAM (-ot ...=CPU),
           #     which is what makes a 357B model fit on 32GB VRAM + 128GB RAM.
           #   * 256K context is enabled with --ctx-size 262144, flash attention and a
-          #     q8_0-quantized KV cache to keep the cache within the 128GB RAM budget.
+          #     q8_0-quantized KV cache. The KV cache is kept in system RAM
+          #     (--no-kv-offload): at 256K it needs a single ~25GB buffer that does
+          #     not fit a 16GB card, so offloading it to the GPU causes a CUDA OOM.
           command:
             - /app/llama-server
             - --host
@@ -55,6 +57,9 @@ spec:
             - "{{ .Values.llamacpp.cacheType }}"
             - --cache-type-v
             - "{{ .Values.llamacpp.cacheType }}"
+            # Keep the 256K KV cache in system RAM instead of GPU VRAM; a single
+            # ~25GB KV buffer will not fit a 16GB card (cudaMalloc out of memory).
+            - --no-kv-offload
             - --threads
             - "{{ .Values.llamacpp.threads }}"
             - --jinja

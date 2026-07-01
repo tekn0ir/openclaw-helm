@@ -11,7 +11,35 @@ mcp:
     tag: latest
     pullPolicy: Always
 
+# GPU node placement (empty selects any node)
+nodeSelector: {}
+
 # Model configuration
+# Served by a local llama.cpp server (OpenAI-compatible API), see llamacpp below.
 models:
-  primary: "ollama/ukjin/Qwen3-30B-A3B-Thinking-2507-Deepseek-v3.1-Distill:4b"
-  id: "ukjin/Qwen3-30B-A3B-Thinking-2507-Deepseek-v3.1-Distill:4b"
+  primary: "llamacpp/glm-4.6"
+  id: "glm-4.6"
+
+# llama.cpp server configuration
+# Runs the "massive" GLM-4.6 (357B MoE) as a quantized GGUF, split across CPU and
+# both GPUs. Note: there is no public "GLM-5.2" GGUF; GLM-4.6 is the current
+# flagship/"massive" GLM model available for llama.cpp.
+llamacpp:
+  # Official CUDA-enabled llama.cpp server image (contains /app/llama-server).
+  image: ghcr.io/ggml-org/llama.cpp
+  tag: server-cuda
+  pullPolicy: IfNotPresent
+  # Hugging Face GGUF repo and quant tag auto-downloaded by llama-server (-hf).
+  # UD-Q2_K_XL (~135GB) is the largest GLM-4.6 quant that fits 32GB VRAM + 128GB RAM.
+  hfRepo: "unsloth/GLM-4.6-GGUF"
+  quant: "UD-Q2_K_XL"
+  # 256K context.
+  contextSize: 262144
+  # Even split of GPU-resident tensors across the two 16GB cards.
+  tensorSplit: "1,1"
+  # Keep the routed MoE expert tensors on CPU so the model fits in VRAM.
+  cpuMoeRegex: ".ffn_.*_exps."
+  # q8_0 KV cache keeps the 256K-token cache within the RAM budget with minimal quality loss.
+  cacheType: "q8_0"
+  # CPU threads used for the RAM-resident expert tensors.
+  threads: 12

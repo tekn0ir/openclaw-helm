@@ -1,6 +1,8 @@
 # OpenClaw Helm Chart
 
-This chart deploys OpenClaw and Ollama to a K3s cluster using the HelmChart CRD and controller. Services include Prometheus scrape annotations for `/metrics`. Persistence uses hostPath under `/opt/teknoir/openclaw`.
+This chart deploys OpenClaw and a local llama.cpp model server to a K3s cluster using the HelmChart CRD and controller. Persistence uses hostPath under `/opt/teknoir/openclaw`.
+
+The model backend runs the massive GLM-4.6 (357B MoE) as a quantized GGUF via `llama-server`, split across CPU and both GPUs: dense/attention layers are offloaded to the two 16GB GPUs while the routed MoE experts stay in 128GB system RAM, with a 256K context window. Configuration lives under `llamacpp` in `values.yaml`. There is no public "GLM-5.2" GGUF; GLM-4.6 is the current flagship GLM model for llama.cpp.
 
 > The implementation of the Helm chart is the bare minimum to get it to work by design.
 

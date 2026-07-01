@@ -31,18 +31,17 @@ data:
       },
       "models": {
         "providers": {
-          "ollama": {
-            "apiKey": "ollama-local",
-            "baseUrl": "http://openclaw-ollama:11434",
-            "api": "ollama",
+          "llamacpp": {
+            "apiKey": "llamacpp-local",
+            "baseUrl": "http://openclaw-llamacpp:8080/v1",
+            "api": "openai",
             "models": [
               {
                 "id": "{{ .Values.models.id }}",
                 "name": "{{ .Values.models.id }}",
                 "reasoning": true,
                 "input": [
-                  "text",
-                  "image"
+                  "text"
                 ],
                 "cost": {
                   "input": 0,

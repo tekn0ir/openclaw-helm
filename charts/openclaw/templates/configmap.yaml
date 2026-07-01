@@ -36,6 +36,7 @@ data:
             "apiKey": "llamacpp-local",
             "baseUrl": "http://openclaw-llamacpp:8080/v1",
             "api": "openai-completions",
+            "timeoutSeconds": {{ .Values.models.providerTimeoutSeconds }},
             "models": [
               {
                 "id": "{{ .Values.models.id }}",
@@ -60,6 +61,7 @@ data:
       "agents": {
         "defaults": {
           "workspace": "~/.openclaw/workspace",
+          "timeoutSeconds": {{ .Values.models.agentTimeoutSeconds }},
           "model": {
             "primary": "{{ .Values.models.primary }}"
           },

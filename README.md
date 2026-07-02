@@ -1,6 +1,8 @@
 # OpenClaw Helm Chart
 
-This chart deploys OpenClaw and a local llama.cpp model server to a K3s cluster using the HelmChart CRD and controller. Persistence uses hostPath under `/opt/teknoir/openclaw`.
+This chart deploys OpenClaw, a local llama.cpp model server and Open Notebook (a NotebookLM alternative) to a K3s cluster using the HelmChart CRD and controller. Persistence uses hostPath under `/opt/teknoir/openclaw`.
+
+Open Notebook runs from the single-container `lfnovo/open_notebook` image (bundled SurrealDB) and uses the local llama.cpp server through its OpenAI-compatible API, so no external API keys are required. Its web UI is exposed on a fixed NodePort (`30502`). Configuration lives under `openNotebook` in `values.yaml`.
 
 The model backend runs the massive GLM-4.6 (357B MoE) as a quantized GGUF via `llama-server`, split across CPU and both GPUs: dense/attention layers are offloaded to the two 16GB GPUs while the routed MoE experts stay in 128GB system RAM, with a 256K context window. Configuration lives under `llamacpp` in `values.yaml`. There is no public "GLM-5.2" GGUF; GLM-4.6 is the current flagship GLM model for llama.cpp.
 

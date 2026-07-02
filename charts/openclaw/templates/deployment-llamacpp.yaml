@@ -1,20 +1,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: openclaw-llamacpp
+  name: llamacpp
   labels:
-    app: openclaw-llamacpp
+    app: llamacpp
 spec:
   replicas: 1
   strategy:
     type: Recreate
   selector:
     matchLabels:
-      app: openclaw-llamacpp
+      app: llamacpp
   template:
     metadata:
       labels:
-        app: openclaw-llamacpp
+        app: llamacpp
     spec:
       runtimeClassName: nvidia
       nodeSelector:

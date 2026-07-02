@@ -14,6 +14,18 @@ mcp:
 # GPU node placement (empty selects any node)
 nodeSelector: {}
 
+# Open Notebook (NotebookLM alternative) configuration
+# Single-container image that bundles the frontend, API and SurrealDB. It talks to
+# the local llama.cpp server through its OpenAI-compatible API (see llamacpp below),
+# so no external API keys are required.
+openNotebook:
+  image: lfnovo/open_notebook
+  # The "-single" tag bundles SurrealDB in the same container.
+  tag: latest-single
+  pullPolicy: Always
+  # Fixed NodePort for the web UI, derived from the default UI port 8502.
+  nodePort: 30502
+
 # Model configuration
 # Served by a local llama.cpp server (OpenAI-compatible API), see llamacpp below.
 models:

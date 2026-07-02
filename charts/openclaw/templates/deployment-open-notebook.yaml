@@ -1,0 +1,80 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: open-notebook
+  labels:
+    app: open-notebook
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: open-notebook
+  template:
+    metadata:
+      labels:
+        app: open-notebook
+    spec:
+      containers:
+        - name: open-notebook
+          image: "{{ .Values.openNotebook.image }}:{{ .Values.openNotebook.tag }}"
+          imagePullPolicy: {{ .Values.openNotebook.pullPolicy }}
+          ports:
+            - name: ui
+              containerPort: 8502
+              protocol: TCP
+            - name: api
+              containerPort: 5055
+              protocol: TCP
+          env:
+            # Use the local llama.cpp server (OpenAI-compatible API) as the model
+            # provider so no external API keys are required.
+            - name: OPENAI_COMPATIBLE_BASE_URL
+              value: "http://llamacpp:8080/v1"
+            - name: OPENAI_COMPATIBLE_API_KEY
+              value: "llamacpp-local"
+            # Bundled SurrealDB (the "-single" image runs it inside the container).
+            - name: SURREAL_ADDRESS
+              value: localhost
+            - name: SURREAL_PORT
+              value: "8000"
+            - name: SURREAL_USER
+              value: root
+            - name: SURREAL_PASS
+              value: root
+            - name: SURREAL_NAMESPACE
+              value: open_notebook
+            - name: SURREAL_DATABASE
+              value: production
+          resources:
+            requests:
+              memory: 512Mi
+              cpu: 250m
+            limits:
+              memory: 4Gi
+              cpu: "2"
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 8502
+            initialDelaySeconds: 30
+            periodSeconds: 15
+            timeoutSeconds: 10
+            failureThreshold: 20
+          volumeMounts:
+            # Uploads, podcasts and checkpoints.
+            - name: open-notebook-data
+              mountPath: /app/data
+            # SurrealDB database files.
+            - name: open-notebook-surreal
+              mountPath: /mydata
+      volumes:
+        - name: open-notebook-data
+          hostPath:
+            path: /opt/teknoir/openclaw/open-notebook/data
+            type: DirectoryOrCreate
+        - name: open-notebook-surreal
+          hostPath:
+            path: /opt/teknoir/openclaw/open-notebook/surreal
+            type: DirectoryOrCreate

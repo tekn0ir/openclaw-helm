@@ -28,6 +28,16 @@ spec:
               containerPort: 5055
               protocol: TCP
           env:
+            # Public API URL returned to the browser by Open Notebook's runtime
+            # config endpoint. Keep this on the Istio/Keycloak HTTPS origin so
+            # the frontend does not try to call localhost:5055 from the user's
+            # browser.
+            - name: API_URL
+              value: {{ .Values.openNotebook.publicUrl | quote }}
+            - name: CORS_ORIGINS
+              value: {{ join "," .Values.openNotebook.corsOrigins | quote }}
+            - name: OPEN_NOTEBOOK_ENCRYPTION_KEY
+              value: {{ .Values.openNotebook.encryptionKey | quote }}
             # Use the local llama.cpp server (OpenAI-compatible API) as the model
             # provider so no external API keys are required.
             - name: OPENAI_COMPATIBLE_BASE_URL

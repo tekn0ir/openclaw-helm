@@ -23,6 +23,17 @@ openNotebook:
   # The "-single" tag bundles SurrealDB in the same container.
   tag: latest-single
   pullPolicy: Always
+  # Public HTTPS route served by Istio/Keycloak. Open Notebook uses API_URL in
+  # the browser runtime config; setting it explicitly avoids falling back to
+  # localhost:5055 when the UI is accessed through a reverse proxy.
+  publicUrl: "https://open-notebook-rtx2000-ada-128gb-se-teknoir-demo.teknoir.cloud"
+  # Restrict browser API access to the public route instead of Open Notebook's
+  # development default of allowing every origin.
+  corsOrigins:
+    - "https://open-notebook-rtx2000-ada-128gb-se-teknoir-demo.teknoir.cloud"
+  # Required by Open Notebook when storing provider credentials via the Settings
+  # UI. Override this value before exposing the service beyond this demo cluster.
+  encryptionKey: "open-notebook-demo-change-me"
   # Fixed NodePort for the web UI, derived from the default UI port 8502.
   nodePort: 30502
 

@@ -16,6 +16,11 @@ spec:
       labels:
         app: vllm
     spec:
+      # Kubernetes injects service-discovery env vars named {SVCNAME}_* for every
+      # Service in the namespace. The "vllm" Service produces VLLM_PORT set to a
+      # URI ("tcp://<clusterIP>:8080"), which vLLM misreads as its own VLLM_PORT
+      # setting and rejects. Disable the injection so vLLM sees only its own env.
+      enableServiceLinks: false
       runtimeClassName: nvidia
       nodeSelector:
         {{- toYaml $.Values.nodeSelector | nindent 8 }}

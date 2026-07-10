@@ -21,7 +21,7 @@ nodeSelector: {}
 openNotebook:
   image: lfnovo/open_notebook
   # The "-single" tag bundles SurrealDB in the same container.
-  tag: latest-single
+  tag: v1-latest-single
   pullPolicy: Always
   # Public HTTPS route served by Istio/Keycloak. Open Notebook uses API_URL in
   # the browser runtime config; setting it explicitly avoids falling back to

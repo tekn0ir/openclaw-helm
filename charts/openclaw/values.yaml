@@ -16,7 +16,7 @@ nodeSelector: {}
 
 # Open Notebook (NotebookLM alternative) configuration
 # Single-container image that bundles the frontend, API and SurrealDB. It talks to
-# the local llama.cpp server through its OpenAI-compatible API (see llamacpp below),
+# the local vLLM server through its OpenAI-compatible API (see vllm below),
 # so no external API keys are required.
 openNotebook:
   image: lfnovo/open_notebook
@@ -38,13 +38,13 @@ openNotebook:
   nodePort: 30502
 
 # Model configuration
-# Served by a local llama.cpp server (OpenAI-compatible API), see llamacpp below.
+# Served by a local vLLM server (OpenAI-compatible API), see vllm below.
 models:
-  primary: "llamacpp/glm-4.6"
-  id: "glm-4.6"
-  # A 357B MoE with CPU-offloaded experts and a 256K context is slow, especially
-  # for the first (prompt-processing) token. Give the provider and the agent run a
-  # very generous idle/run timeout so long generations are not cut off with
+  primary: "vllm/deepseek-v4-flash"
+  id: "deepseek-v4-flash"
+  # A 285B MoE with CPU-offloaded weights is slow, especially for the first
+  # (prompt-processing) token. Give the provider and the agent run a very
+  # generous idle/run timeout so long generations are not cut off with
   # "LLM request timed out".
   # Provider-level idle timeout (seconds) between streamed tokens.
   providerTimeoutSeconds: 3600
@@ -63,26 +63,32 @@ models:
   # call holds the transcript lock; the default 300000ms max-hold releases it mid-run.
   sessionWriteLockMaxHoldMs: 14400000
 
-# llama.cpp server configuration
-# Runs the "massive" GLM-4.6 (357B MoE) as a quantized GGUF, split across CPU and
-# both GPUs. Note: there is no public "GLM-5.2" GGUF; GLM-4.6 is the current
-# flagship/"massive" GLM model available for llama.cpp.
-llamacpp:
-  # Official CUDA-enabled llama.cpp server image (contains /app/llama-server).
-  image: ghcr.io/ggml-org/llama.cpp
-  tag: server-cuda
+# vLLM server configuration
+# Runs DeepSeek-V4-Flash (285B MoE, ~13B active) with vLLM's native DeepSeek V4
+# support. The model ships in a mixed native format (FP4 MoE experts + FP8 dense
+# layers) that the Blackwell RTX 2000 Pro GPUs accelerate in hardware (NVFP4).
+vllm:
+  # Official vLLM OpenAI-compatible server image.
+  image: vllm/vllm-openai
+  tag: latest
   pullPolicy: IfNotPresent
-  # Hugging Face GGUF repo and quant tag auto-downloaded by llama-server (-hf).
-  # UD-Q2_K_XL (~135GB) is the largest GLM-4.6 quant that fits 32GB VRAM + 128GB RAM.
-  hfRepo: "unsloth/GLM-4.6-GGUF"
-  quant: "UD-Q2_K_XL"
-  # 256K context.
-  contextSize: 262144
-  # Even split of GPU-resident tensors across the two 16GB cards.
-  tensorSplit: "1,1"
-  # Keep the routed MoE expert tensors on CPU so the model fits in VRAM.
-  cpuMoeRegex: ".ffn_.*_exps."
-  # q8_0 KV cache keeps the 256K-token cache within the RAM budget with minimal quality loss.
-  cacheType: "q8_0"
-  # CPU threads used for the RAM-resident expert tensors.
-  threads: 12
+  # Hugging Face checkpoint auto-downloaded and served by vLLM.
+  model: "deepseek-ai/DeepSeek-V4-Flash"
+  # Shard the model across the two 16GB Blackwell GPUs.
+  tensorParallelSize: 2
+  # 285B parameters do not fit in 32GB VRAM, so offload the bulk of the weights
+  # into the 128GB host RAM (leave headroom for the OS and page cache).
+  cpuOffloadGb: 112
+  # Context window (tokens). DeepSeek V4 supports up to 1M; 128K is a practical
+  # size given the VRAM/KV-cache budget on two 16GB cards.
+  maxModelLen: 131072
+  # Concurrent sequences kept small to bound KV-cache memory on 32GB VRAM.
+  maxNumSeqs: 8
+  # Fraction of each GPU's memory vLLM may allocate.
+  gpuMemoryUtilization: 0.92
+  # FP8 KV cache keeps the long-context cache within the VRAM budget.
+  kvCacheDtype: "fp8"
+  # DeepSeek V4 requires its model-specific tokenizer, tool and reasoning parsers.
+  tokenizerMode: "auto"
+  toolCallParser: "deepseek_v4"
+  reasoningParser: "deepseek_v4"

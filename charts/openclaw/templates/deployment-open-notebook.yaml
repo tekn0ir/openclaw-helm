@@ -38,12 +38,12 @@ spec:
               value: {{ join "," .Values.openNotebook.corsOrigins | quote }}
             - name: OPEN_NOTEBOOK_ENCRYPTION_KEY
               value: {{ .Values.openNotebook.encryptionKey | quote }}
-            # Use the local llama.cpp server (OpenAI-compatible API) as the model
+            # Use the local vLLM server (OpenAI-compatible API) as the model
             # provider so no external API keys are required.
             - name: OPENAI_COMPATIBLE_BASE_URL
-              value: "http://llamacpp:8080/v1"
+              value: "http://vllm:8080/v1"
             - name: OPENAI_COMPATIBLE_API_KEY
-              value: "llamacpp-local"
+              value: "vllm-local"
             # Bundled SurrealDB (the "-single" image runs it inside the container).
             - name: SURREAL_ADDRESS
               value: localhost

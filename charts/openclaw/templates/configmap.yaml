@@ -32,9 +32,9 @@ data:
       },
       "models": {
         "providers": {
-          "llamacpp": {
-            "apiKey": "llamacpp-local",
-            "baseUrl": "http://llamacpp:8080/v1",
+          "vllm": {
+            "apiKey": "vllm-local",
+            "baseUrl": "http://vllm:8080/v1",
             "api": "openai-completions",
             "timeoutSeconds": {{ .Values.models.providerTimeoutSeconds }},
             "models": [
@@ -51,8 +51,8 @@ data:
                   "cacheRead": 0,
                   "cacheWrite": 0
                 },
-                "contextWindow": 260000,
-                "maxTokens": 260000
+                "contextWindow": 131072,
+                "maxTokens": 131072
               }
             ]
           }

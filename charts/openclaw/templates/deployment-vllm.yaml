@@ -1,0 +1,111 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vllm
+  labels:
+    app: vllm
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: vllm
+  template:
+    metadata:
+      labels:
+        app: vllm
+    spec:
+      runtimeClassName: nvidia
+      nodeSelector:
+        {{- toYaml $.Values.nodeSelector | nindent 8 }}
+      containers:
+        - name: vllm
+          image: "{{ .Values.vllm.image }}:{{ .Values.vllm.tag }}"
+          imagePullPolicy: {{ .Values.vllm.pullPolicy }}
+          # DeepSeek-V4-Flash (285B MoE, ~13B active) served with vLLM's native
+          # DeepSeek V4 support. The model ships in a mixed native format (FP4 for
+          # the MoE experts, FP8 for the dense layers) which the two Blackwell RTX
+          # 2000 Pro cards accelerate in hardware (NVFP4):
+          #   * The model is sharded across both 16GB GPUs with
+          #     --tensor-parallel-size 2 and expert parallelism.
+          #   * 285B parameters do not fit in 32GB of VRAM, so the bulk of the
+          #     weights are offloaded to the 128GB host RAM with --cpu-offload-gb.
+          #   * The KV cache is FP8-quantized to keep a long context within the
+          #     remaining VRAM budget on the two 16GB cards.
+          command:
+            - vllm
+            - serve
+            - "{{ .Values.vllm.model }}"
+            - --host
+            - 0.0.0.0
+            - --port
+            - "8080"
+            - --served-model-name
+            - "{{ .Values.models.id }}"
+            - --tensor-parallel-size
+            - "{{ .Values.vllm.tensorParallelSize }}"
+            - --enable-expert-parallel
+            - --cpu-offload-gb
+            - "{{ .Values.vllm.cpuOffloadGb }}"
+            - --max-model-len
+            - "{{ .Values.vllm.maxModelLen }}"
+            - --max-num-seqs
+            - "{{ .Values.vllm.maxNumSeqs }}"
+            - --gpu-memory-utilization
+            - "{{ .Values.vllm.gpuMemoryUtilization }}"
+            - --kv-cache-dtype
+            - "{{ .Values.vllm.kvCacheDtype }}"
+            - --enable-chunked-prefill
+            - --trust-remote-code
+            - --tokenizer-mode
+            - "{{ .Values.vllm.tokenizerMode }}"
+            - --tool-call-parser
+            - "{{ .Values.vllm.toolCallParser }}"
+            - --enable-auto-tool-choice
+            - --reasoning-parser
+            - "{{ .Values.vllm.reasoningParser }}"
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+          env:
+            # Persist the downloaded weights so they are fetched only once.
+            - name: HF_HOME
+              value: /models
+            - name: HF_HUB_ENABLE_HF_TRANSFER
+              value: "1"
+            # vLLM needs a sizeable /dev/shm for tensor-parallel NCCL transfers.
+            - name: VLLM_WORKER_MULTIPROC_METHOD
+              value: spawn
+          resources:
+            requests:
+              memory: 32Gi
+              cpu: "6"
+            limits:
+              memory: 128Gi
+              cpu: "12"
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8080
+            initialDelaySeconds: 60
+            periodSeconds: 30
+            timeoutSeconds: 10
+            # The model download + load can take a long time on first start.
+            failureThreshold: 240
+          volumeMounts:
+            - name: vllm-models
+              mountPath: /models
+            # Shared memory for tensor-parallel worker communication.
+            - name: dshm
+              mountPath: /dev/shm
+      volumes:
+        - name: vllm-models
+          hostPath:
+            path: /opt/teknoir/openclaw/vllm
+            type: DirectoryOrCreate
+        - name: dshm
+          emptyDir:
+            medium: Memory
+            sizeLimit: 16Gi

@@ -76,9 +76,12 @@ vllm:
   model: "deepseek-ai/DeepSeek-V4-Flash"
   # Shard the model across the two 16GB Blackwell GPUs.
   tensorParallelSize: 2
-  # 285B parameters do not fit in 32GB VRAM, so offload the bulk of the weights
-  # into the 128GB host RAM (leave headroom for the OS and page cache).
-  cpuOffloadGb: 112
+  # --cpu-offload-gb is applied PER GPU, so the total host RAM reserved is
+  # tensorParallelSize x cpuOffloadGb. With tensorParallelSize: 2 this must stay
+  # well under the 128GB host / 128Gi container limit, leaving room for the OS,
+  # the page cache for the model files and the RAM-resident KV cache/activations.
+  # 45 => 90GB total, which fits with headroom.
+  cpuOffloadGb: 45
   # Context window (tokens). DeepSeek V4 supports up to 1M; 128K is a practical
   # size given the VRAM/KV-cache budget on two 16GB cards.
   maxModelLen: 131072
@@ -92,3 +95,6 @@ vllm:
   tokenizerMode: "auto"
   toolCallParser: "deepseek_v4"
   reasoningParser: "deepseek_v4"
+  # Optional Hugging Face token. Authenticated requests get higher Hub rate
+  # limits and faster downloads. Leave empty for anonymous access.
+  hfToken: ""

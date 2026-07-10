@@ -78,8 +78,16 @@ spec:
             # Persist the downloaded weights so they are fetched only once.
             - name: HF_HOME
               value: /models
-            - name: HF_HUB_ENABLE_HF_TRANSFER
+            # The DeepSeek-V4-Flash repo is served through Xet, so the legacy
+            # HF_HUB_ENABLE_HF_TRANSFER flag is now a no-op. Enable the Xet
+            # high-performance transfer path instead to download at line speed.
+            - name: HF_XET_HIGH_PERFORMANCE
               value: "1"
+            {{- if .Values.vllm.hfToken }}
+            # Authenticated requests get higher HF Hub rate limits / faster pulls.
+            - name: HF_TOKEN
+              value: {{ .Values.vllm.hfToken | quote }}
+            {{- end }}
             # vLLM needs a sizeable /dev/shm for tensor-parallel NCCL transfers.
             - name: VLLM_WORKER_MULTIPROC_METHOD
               value: spawn
